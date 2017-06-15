@@ -1,0 +1,24 @@
+{
+  "name": "athenaswipeplay",
+  "description": "Games for Athena",
+  "main": "index.html",
+  "authors": [
+    "Steve Cirelli"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "baby",
+    "games"
+  ],
+  "homepage": "https://github.com/scirelli/athenaSwipePlay",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^2.0.0"
+  }
+}
