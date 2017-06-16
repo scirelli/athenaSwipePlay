@@ -7,9 +7,9 @@ HTMLImports.whenReady(function() {
         _continueRunning = new WeakMap(),
         _tickCountMS = new WeakMap();
     
-    const GAME_NAME = 'slider-game';
+    const GAME_NAME = 'block-thrower';
 
-    class SliderGameElement extends Polymer.Element {
+    class BlockThrowerElement extends Polymer.Element {
         static get is() { return GAME_NAME; }
         static get properties() {
             return {
@@ -32,7 +32,7 @@ HTMLImports.whenReady(function() {
         constructor() {
             super();
 
-            _game.set(this, new slider.Game(document));
+            _game.set(this, new cirelli.BlockThrower(document));
 
             console.log(GAME_NAME + ' created');
         }
@@ -64,5 +64,5 @@ HTMLImports.whenReady(function() {
         }
     }
 
-    window.customElements.define(SliderGameElement.is, SliderGameElement);
+    window.customElements.define(BlockThrowerElement.is, BlockThrowerElement);
 });
