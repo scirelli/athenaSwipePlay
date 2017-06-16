@@ -22,5 +22,11 @@
   "bugs": {
     "url": "https://github.com/scirelli/athenaSwipePlay/issues"
   },
-  "homepage": "https://github.com/scirelli/athenaSwipePlay#readme"
+  "homepage": "https://github.com/scirelli/athenaSwipePlay#readme",
+  "devDependencies": {
+    "commonjs": "0.0.1"
+  },
+  "dependencies": {
+    "requirejs": "^2.3.3"
+  }
 }
