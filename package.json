@@ -6,9 +6,6 @@
   "directories": {
     "doc": "doc"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/scirelli/athenaSwipePlay.git"
@@ -24,10 +21,11 @@
   },
   "homepage": "https://github.com/scirelli/athenaSwipePlay#readme",
   "devDependencies": {
-    "commonjs": "0.0.1"
   },
   "dependencies": {
-    "jquery": "^3.2.1",
-    "requirejs": "^2.3.3"
+    "jquery": "^3.2.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
