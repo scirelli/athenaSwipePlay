@@ -1,8 +1,9 @@
 var cirelli = cirelli || {};
 (function(cirelli) {
     'use strict';
-    cirelli.Block = function Block() {
-        cirelli.AShape.apply(this, arguments);
+    cirelli.Rectangle = class Rectangle extends cirelli.AShape {
+        constructor() {
+            super();
+        }
     };
-    cirelli.Block.prototpye = new cirelli.AShape();
 })(cirelli);

@@ -2,9 +2,15 @@ var cirelli = cirelli || {};
 (function(cirelli, Math) {
     'use strict';
     cirelli.Vector = function Vector(x, y, z) {
-        this.x = x || 0;
-        this.y = y || 0;
-        this.z = z || 0;
+        if(typeof(x) === 'number') {
+            this.x = x || 0;
+            this.y = y || 0;
+            this.z = z || 0;
+        }else {
+            if(x.x !== undefined) {
+                this.copy(x);
+            }
+        }
     };
 
     cirelli.Vector.prototype = {
@@ -45,26 +51,61 @@ var cirelli = cirelli || {};
         //  cy = azbx − axbz = 4×5 − 2×7 = 6
         //  cz = axby − aybx = 2×6 − 3×5 = −3
         cross:function(v) {
-            return new Vector(this.y * v.z - this.z * v.y, this.z * v.x - this.x * v.z, this.x * v.y - this.y * v.x); 
+            return new cirelli.Vector(this.y * v.z - this.z * v.y, this.z * v.x - this.x * v.z, this.x * v.y - this.y * v.x); 
+        },
+        
+        isParallel:function(v) {
+            return this.cross(v).equals(cirelli.Vector.ZERO_VECTOR);
+        },
+
+        normalize:function() {
+            let magnitude = this.magnitude();
+
+            if(magnitude === 0) return this.copy(cirelli.Vector.ZERO_VECTOR);
+
+            this.x /= magnitude;
+            this.y /= magnitude;
+            this.z /= magnitude;
+
+            return this;
+        },
+        
+        createUnitVector:function() {
+            let magnitude = this.magnitude();
+
+            if(magnitude === 0) return new cirelli.Vector.ZERO_VECTOR.clone();
+            
+            return new cirelli.Vector(this.x/magnitude, this.y/magnitude, this.z/magnitude);
         },
 
         equals:function(v) {
             return this.x === v.x && this.y === v.y && this.z === v.z;
+        },
+
+        clone:function() {
+            return new cirelli.Vector(this); 
+        },
+
+        copy:function(v) {
+            this.x = v.x || 0;
+            this.y = v.y || 0;
+            this.z = v.z || 0;
+            return this;
         }
     };
     
     cirelli.Vector.ZERO_VECTOR = new cirelli.Vector(0, 0, 0);
 
     cirelli.Vector.add = function(a, b) {
-        return new Vector(a.x + b.x, a.y + b.y, a.z + b.z);
+        return new cirelli.Vector(a.x + b.x, a.y + b.y, a.z + b.z);
     };
 
     cirelli.Vector.sub = function(a, b) {
-        return new Vector(a.x - b.x, a.y - b.y, a.z - b.z);
+        return new cirelli.Vector(a.x - b.x, a.y - b.y, a.z - b.z);
     };
 
     cirelli.Vector.scale = function(v, scalor) {
-        return new Vector(v.x * scalor, v.y * scalor, v.z * scalor);
+        return new cirelli.Vector(v.x * scalor, v.y * scalor, v.z * scalor);
     };
 
     cirelli.Vector.dot = function(a , b) {
@@ -76,14 +117,14 @@ var cirelli = cirelli || {};
     };
 
     cirelli.Vector.cross = function(a, b) {
-        return new Vector(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x); 
+        return new cirelli.Vector(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x); 
+    };
+
+    cirelli.Vector.isParallel = function(a, b) {
+        return cirelli.Vector.equals(cirelli.Vector.cross(a, b), cirelli.Vector.ZERO_VECTOR);
     };
 
     cirelli.Vector.equals = function(a, b) {
         return a.x === b.x && a.y === b.y && a.z === b.z;
-    };
-    
-    cirelli.Vector.isParallel = function(a, b) {
-        return cirelli.Vector.equals(cirelli.Vector.cross(a, b), cirelli.Vector.ZERO_VECTOR);
     };
 })(cirelli, Math);
