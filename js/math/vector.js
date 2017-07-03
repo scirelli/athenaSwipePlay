@@ -2,14 +2,12 @@ var cirelli = cirelli || {};
 (function(cirelli, Math) {
     'use strict';
     cirelli.Vector = function Vector(x, y, z) {
-        if(typeof(x) === 'number') {
-            this.x = x || 0;
-            this.y = y || 0;
-            this.z = z || 0;
-        }else {
-            if(x.x !== undefined) {
-                this.copy(x);
-            }
+        this.x = x || 0;
+        this.y = y || 0;
+        this.z = z || 0;
+
+        if(x && x.x !== undefined) {
+            this.copy(x);
         }
     };
 
@@ -29,10 +27,26 @@ var cirelli = cirelli || {};
         magnitude: function() {
             return Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z);
         },
+        magnitudeSquared: function() {
+            return this.x*this.x + this.y*this.y + this.z*this.z;
+        },
         scale:function(scalor) {
             this.x *= scalor;
             this.y *= scalor;
             this.z *= scalor;
+            return this;
+        },
+        mul:function(scalor) {
+            this.x *= scalor;
+            this.y *= scalor;
+            this.z *= scalor;
+            return this;
+        },
+        div:function(scalor) {
+            if(scalor === 0) scalor = NaN;
+            this.x /= scalor;
+            this.y /= scalor;
+            this.z /= scalor;
             return this;
         },
 
@@ -106,6 +120,15 @@ var cirelli = cirelli || {};
 
     cirelli.Vector.scale = function(v, scalor) {
         return new cirelli.Vector(v.x * scalor, v.y * scalor, v.z * scalor);
+    };
+
+    cirelli.Vector.mul = function(v, scalor) {
+        return new cirelli.Vector(v.x * scalor, v.y * scalor, v.z * scalor);
+    };
+
+    cirelli.Vector.div = function(v, scalor) {
+        if(scalor === 0) return cirelli.Vector();
+        return new cirelli.Vector(v.x / scalor, v.y / scalor, v.z / scalor);
     };
 
     cirelli.Vector.dot = function(a , b) {

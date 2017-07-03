@@ -12,5 +12,5 @@ var cirelli = cirelli || {};
         this.acceleration = new cirelli.Vector();
         this.cg = new cirelli.Vector();
     };
-    cirelli.AShape = Object.create(cirelli.IShape);
+    cirelli.AShape.prototype = Object.create(cirelli.IShape);
 })(cirelli);
