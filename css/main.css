@@ -100,7 +100,33 @@ body, html {
     overflow:hidden;
 }
 
+body {
+    background-color:#222222;
+}
 
+section#content{
+    font-size:0; /* Get rid of the gap between inline blocks*/
+}
+
+block-thrower {
+    font-size:1em;
+    display:inline-block;
+    margin:0;
+    padding:0;
+}
+
+div.algorithmType{
+    display:inline-block;
+    font-size:0px;
+    border: 1px solid #666666;
+}
+
+div.algorithmType h4{
+    color:white;
+    font-size:12px;
+    margin:3px 0px 3px 0px;
+    text-align:center;
+}
 
 
 

@@ -2,10 +2,7 @@ var cirelli = cirelli || {};
 
 (function(cirelli) {
     'use strict';
-    const CANVAS_ID      = 'blockThrowerGameCanvas',
-          ONE_SECOND     = 1000,
-          GRAVITY_SCALOR = 100, //px/s^2
-          GRAVITY        = new cirelli.Vector(0, GRAVITY_SCALOR);//ms
+    const CANVAS_ID      = 'blockThrowerGameCanvas';
 
     cirelli.BlockThrower = class BlockThrower {
         constructor(window) {
@@ -27,8 +24,8 @@ var cirelli = cirelli || {};
             this.height     = height;
 
             let b = new cirelli.Rectangle();
-            b.position.x = 50;
-            b.position.y = 20;
+            b.position.x = 10;
+            b.position.y = 10;
             b.velocity.y = 1;
             b.width      = 100;
             b.height     = 100;
@@ -42,12 +39,13 @@ var cirelli = cirelli || {};
         loop() {
             let self = this,
                 prevTimeMS = self.window.performance.now(),
-                curTimeMS = 0;
+                elapsedTime = 0;
 
             self.window.setTimeout(() => {
                 self.window.requestAnimationFrame(() => {
-                    curTimeMS = self.window.performance.now();
-                    self.calculate(curTimeMS - prevTimeMS);
+                    elapsedTime = self.window.performance.now() - prevTimeMS;
+
+                    self.calculate(elapsedTime);
                     self.collision();
                     self.clear();
                     self.draw()
@@ -56,19 +54,8 @@ var cirelli = cirelli || {};
             }, 0);
         }
 
+        //@abstract
         calculate(elapsedTime) {
-            let delta = elapsedTime/ONE_SECOND;
-
-            for(let i=0, l=this.animatedObjects.length, objs= this.animatedObjects, obj; i<l; i++){
-                obj = objs[i];
-                obj.velocity.add(
-                    cirelli.Vector.mul(
-                        cirelli.Vector.add(obj.acceleration, GRAVITY),
-                        delta)
-                );
-                obj.position.add(cirelli.Vector.mul(obj.velocity, delta));
-            }
-
             return this;
         }
         
