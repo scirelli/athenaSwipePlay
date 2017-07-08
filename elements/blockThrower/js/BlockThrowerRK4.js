@@ -2,8 +2,7 @@ var cirelli = cirelli || {};
 
 (function(cirelli) {
     'use strict';
-    const CANVAS_ID      = 'blockThrowerGameCanvas',
-          ONE_SECOND     = 1000,
+    const ONE_SECOND     = 0.001,
           GRAVITY_SCALOR = 100, //px/s^2
           GRAVITY        = new cirelli.Vector(0, GRAVITY_SCALOR);//ms
 
@@ -18,33 +17,45 @@ var cirelli = cirelli || {};
         }
 
         calculate(elapsedTime){
-            elapsedTime /= 1000;
-            this.totalTime += elapsedTime;
+            elapsedTime *= 0.001;//In seconds
 
             for(let i=0, a=this.animatedObjects, l=a.length; i<l; i++){
                 this.integrate(a[i], this.totalTime, elapsedTime);
             }
 
+            this.totalTime += elapsedTime;
             return this;
         }
 
         integrate(object, totalTime, deltaTime){
             let derivativeA, derivativeB, derivativeC, derivativeD,
-                dxdt, dvdt;
+                dxdt, dvdt,
+                halfDeltaTime = deltaTime*0.5;
+
+            const ONE_SIXTH = 1.0/6.0; //One sixth for the weighted average.
+                                       //              ( An + 2Bn + 2Cn + Dn )
+                                       //yn+1 = yn + h ( ------------------- )
+                                       //              (          6          )
+                                       //xn+1 = xn + h    //Where h is your step size
+                                       //
+                                       //~~~
+                                       //yn+1 = yn + hAn
+                                       //              ~~~
+                                       //Bn = f( xn+1, yn+1 )
 
             derivativeA = this.evaluate(object, totalTime, 0.0          , new Rectangle());
-            derivativeB = this.evaluate(object, totalTime, deltaTime*0.5, derivativeA);
-            derivativeC = this.evaluate(object, totalTime, deltaTime*0.5, derivativeB);
+            derivativeB = this.evaluate(object, totalTime, halfDeltaTime, derivativeA);
+            derivativeC = this.evaluate(object, totalTime, halfDeltaTime, derivativeB);
             derivativeD = this.evaluate(object, totalTime, deltaTime    , derivativeC);
 
             dxdt = Vector.add( derivativeA.position,
                                Vector.add(derivativeB.position, derivativeC.position).mul(2.0))
                           .add(derivativeD.position)
-                          .mul(1.0/6.0);
+                          .mul(ONE_SIXTH);
             dvdt = Vector.add( derivativeA.velocity,
                                Vector.add(derivativeB.velocity, derivativeC.velocity).mul(2.0))
                           .add(derivativeD.velocity)
-                          .mul(1.0/6.0);
+                          .mul(ONE_SIXTH);
 
             object.position.add(dxdt.mul(deltaTime));
             object.velocity.add(dvdt.mul(deltaTime));

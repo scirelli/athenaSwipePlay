@@ -12,6 +12,10 @@ var cirelli = cirelli || {};
                 return new cirelli.BlockThrowerGaffer(window);
             case 'euler':
                 return new cirelli.BlockThrowerEuler(window);
+            case 'verlet':
+                return new cirelli.BlockThrowerVerlet(window);
+            case 'eom':
+                return new cirelli.BlockThrowerEoM(window);
             default:
                 return new cirelli.BlockThrower(window);
         }
