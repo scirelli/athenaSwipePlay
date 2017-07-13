@@ -22,16 +22,13 @@ var cirelli = cirelli || {};
             this.ctx        = this.canvas.getContext('2d');
             this.width      = width;
             this.height     = height;
-
-            let b = new cirelli.Rectangle();
-            b.position.x = 10;
-            b.position.y = 10;
-            b.velocity.y = 1;
-            b.width      = 100;
-            b.height     = 100;
-            this.animatedObjects.push(b);
+            this.createAnimatableObjects();
         }
         
+        createAnimatableObjects() {
+            throw new Error('Not implemented.');
+        }
+
         start() {
             this.loop();            
         }

@@ -13,6 +13,16 @@ var cirelli = cirelli || {};
             this.totalTime = 0;
         }
 
+        createAnimatableObjects() {
+            let b = new cirelli.Rectangle();
+            b.position.x = 10;
+            b.position.y = 10;
+            b.velocity.y = 1;
+            b.width      = 100;
+            b.height     = 100;
+            this.animatedObjects.push(b);
+        }
+
         /*
             last_acceleration = acceleration
             position += velocity * time_step + ( 0.5 * last_acceleration * time_step^2 )

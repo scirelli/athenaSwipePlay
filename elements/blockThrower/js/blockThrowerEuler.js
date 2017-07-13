@@ -12,6 +12,16 @@ var cirelli = cirelli || {};
             super(window);
         }
 
+        createAnimatableObjects() {
+            let b = new cirelli.Rectangle();
+            b.position.x = 10;
+            b.position.y = 10;
+            b.velocity.y = 1;
+            b.width      = 100;
+            b.height     = 100;
+            this.animatedObjects.push(b);
+        }
+
         /*
          *  semi-implicit Euler's (pronounced "Oiler") Integration Method
         */
