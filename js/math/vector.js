@@ -105,6 +105,10 @@ var cirelli = cirelli || {};
             this.y = v.y || 0;
             this.z = v.z || 0;
             return this;
+        },
+
+        toString:function() {
+            return `(${this.x}, ${this.y}, ${this.z})`;
         }
     };
     

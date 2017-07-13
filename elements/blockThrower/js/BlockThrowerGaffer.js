@@ -6,7 +6,7 @@ var cirelli = cirelli || {};
           ONE_SECOND      = 1000,
           GRAVITY_SCALOR  = 100, //px/s^2
           GRAVITY         = new cirelli.Vector(0, GRAVITY_SCALOR),
-          FIXED_TIME_STEP = 0.1,//s
+          FIXED_TIME_STEP = 0.01,//s
           MIN_FRAME_TIME  = 0.25;//s
 
     let Vector = cirelli.Vector,
@@ -52,6 +52,7 @@ var cirelli = cirelli || {};
 
                 for(let i=0, a=this.animatedObjects, l=a.length, obj; i<l; i++){
                     obj = a[i];
+
                     obj.previousState = obj.currentState.clone();
                     this.integrate(obj.currentState, totalTime, FIXED_TIME_STEP);
                 }
@@ -63,7 +64,7 @@ var cirelli = cirelli || {};
             alpha = accumulator/elapsedTime;
             for(let i=0, a=this.animatedObjects, l=a.length, obj, state; i<l; i++){
                 obj = a[i];
-                obj.position.mul(obj.currentState.position, alpha).add( 
+                obj.position = Vector.mul(obj.currentState.position, alpha).add( 
                     Vector.mul(obj.previousState.position, 1.0 - alpha)
                 )
             }
@@ -124,6 +125,24 @@ var cirelli = cirelli || {};
 
         acceleration(object, time) {
             return GRAVITY.clone();
+        }
+
+        collision() {
+            for(let i=0, l=this.animatedObjects.length, objs=this.animatedObjects, obj, p, v; i<l; i++){
+                obj = objs[i];
+                p   = objs[i].currentState.position;
+                v   = objs[i].currentState.velocity;
+
+                if(p.y <= 0) {
+                    p.y = 0;
+                    v.y *= -1;
+                }else if(p.y+obj.height >= this.height){
+                    p.y = this.height - obj.height;
+                    v.y *= -1;
+                }
+            }
+
+            return this;
         }
     };
 })(cirelli);
